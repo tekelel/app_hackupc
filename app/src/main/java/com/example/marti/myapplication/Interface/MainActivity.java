@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,6 +24,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 
 
 import com.example.marti.myapplication.R;
@@ -36,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
     private EcoViewAdapter eco_adapter;
     private ProgramViewAdapter prog_adapter;
     private ViewPager viewPager;
+    private ArrayList<ScheduledSwitch> scheduledswitches;
+    private ArrayList<ScheduledEcoSwitch> scheduledecoswitches;
+    private static final String TAG = "MyActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +50,33 @@ public class MainActivity extends AppCompatActivity {
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(new MainPageAdapter());
-
+        SQLiteDatabaseHandler db = new SQLiteDatabaseHandler(this.getApplicationContext());
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
         tabLayout.setupWithViewPager(viewPager);
         addSeparators(tabLayout);
 
+
+        ScheduledEcoSwitch so = new ScheduledEcoSwitch("hola","12:00","16:00");
+        db.addEcoSchedule(so);
+        so = new ScheduledEcoSwitch("fsfs","12:00","16:00");
+        db.addEcoSchedule(so);
+        so = new ScheduledEcoSwitch("hoffddgla","12:00","16:00");
+        db.addEcoSchedule(so);
+
+        ScheduledSwitch sc = new ScheduledSwitch("hola","12:00","16:00");
+        db.addSwitchSchedule(sc);
+        sc = new ScheduledSwitch("fsfs","12:00","16:00");
+        db.addSwitchSchedule(sc);
+        sc = new ScheduledSwitch("hoffddgla","12:00","16:00");
+        db.addSwitchSchedule(sc);
+
+        try {
+            scheduledecoswitches = db.loadEcoData();
+            scheduledswitches = db.loadSwitchData();
+        }catch(Exception e){
+
+            Log.v(TAG,e.getMessage());}
         ImageView img = (ImageView) findViewById(R.id.easterEgg);
         img.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -134,14 +161,10 @@ public class MainActivity extends AppCompatActivity {
                     if (page2 == null) {
                         page2 = (CoordinatorLayout) LayoutInflater.from(viewPager.getContext()).inflate(R.layout.page_two, collection, false);
 
-                        ArrayList<ScheduledSwitch> switch_array = new ArrayList<>();
-                        for(int i = 0; i < 50; i++){
-                            switch_array.add(new ScheduledSwitch("adeu" + i, "00:00", "00:01"));
-                        }
 
                         RecyclerView prog_view = (RecyclerView) page2.findViewById(R.id.scheduled_view);
                         prog_view.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                        prog_adapter = new ProgramViewAdapter(page2, page2, switch_array);
+                        prog_adapter = new ProgramViewAdapter(page2, page2, scheduledswitches);
                         prog_view.setAdapter(prog_adapter);
 
                     }
@@ -152,14 +175,11 @@ public class MainActivity extends AppCompatActivity {
                     if (page3 == null) {
                         page3 = (CoordinatorLayout) LayoutInflater.from(viewPager.getContext()).inflate(R.layout.page_three, collection, false);
 
-                        ArrayList<ScheduledEcoSwitch> eco_array = new ArrayList<>();
-                        for(int i = 0; i < 50; i++){
-                            eco_array.add(new ScheduledEcoSwitch("hola" + i, "00:00", "2"));
-                        }
 
                         RecyclerView eco_view = (RecyclerView) page3.findViewById(R.id.eco_view);
                         eco_view.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                        eco_adapter = new EcoViewAdapter(page3, page3, eco_array);
+                        eco_adapter = new EcoViewAdapter(page3, page3, scheduledecoswitches);
+
                         eco_view.setAdapter(eco_adapter);
                     }
 

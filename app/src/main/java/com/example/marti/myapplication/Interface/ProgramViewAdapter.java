@@ -51,7 +51,11 @@ public class ProgramViewAdapter extends RecyclerView.Adapter<ProgramViewAdapter.
 
     @Override
     public int getItemCount() {
-        return switching_list.size();
+        try {
+            return switching_list.size();
+        } catch(Exception e){
+            return 0;
+        }
     }
 
     @Override

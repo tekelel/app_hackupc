@@ -65,7 +65,11 @@ public class EcoViewAdapter extends RecyclerView.Adapter<EcoViewAdapter.EcoViewH
 
     @Override
     public int getItemCount() {
-        return switching_list.size();
+        try {
+            return switching_list.size();
+        } catch(Exception e){
+            return 0;
+        }
     }
 
     @Override
