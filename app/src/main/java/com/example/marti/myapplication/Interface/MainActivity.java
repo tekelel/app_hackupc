@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private ArrayList<ScheduledSwitch> scheduledswitches;
     private ArrayList<ScheduledEcoSwitch> scheduledecoswitches;
+    private static final String TAG = "MyActivity";
 
 
     @Override
@@ -54,8 +56,28 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
         tabLayout.setupWithViewPager(viewPager);
         addSeparators(tabLayout);
-        scheduledecoswitches = db.loadEcoData();
-        scheduledswitches = db.loadSwitchData();
+
+
+        ScheduledEcoSwitch so = new ScheduledEcoSwitch("hola","12:00","16:00");
+        db.addEcoSchedule(so);
+        so = new ScheduledEcoSwitch("fsfs","12:00","16:00");
+        db.addEcoSchedule(so);
+        so = new ScheduledEcoSwitch("hoffddgla","12:00","16:00");
+        db.addEcoSchedule(so);
+
+        ScheduledSwitch sc = new ScheduledSwitch("hola","12:00","16:00");
+        db.addSwitchSchedule(sc);
+        sc = new ScheduledSwitch("fsfs","12:00","16:00");
+        db.addSwitchSchedule(sc);
+        sc = new ScheduledSwitch("hoffddgla","12:00","16:00");
+        db.addSwitchSchedule(sc);
+
+        try {
+            scheduledecoswitches = db.loadEcoData();
+            scheduledswitches = db.loadSwitchData();
+        }catch(Exception e){
+
+            Log.v(TAG,e.getMessage());}
         ImageView img = (ImageView) findViewById(R.id.easterEgg);
         img.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
