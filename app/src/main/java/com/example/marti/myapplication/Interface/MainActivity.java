@@ -140,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
                 case 0:
                     if (page1 == null) {
                         page1 = (LinearLayout) LayoutInflater.from(viewPager.getContext()).inflate(R.layout.page_one, collection, false);
+                        ButtonController button_ctrl = new ButtonController(page1);
                     }
                     page = page1;
                     break;
