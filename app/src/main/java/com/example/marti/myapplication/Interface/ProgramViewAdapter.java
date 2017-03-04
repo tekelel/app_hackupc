@@ -30,18 +30,20 @@ import static android.content.ContentValues.TAG;
 public class ProgramViewAdapter extends RecyclerView.Adapter<ProgramViewAdapter.ProgrammedViewHolder> {
 
     private ArrayList<ScheduledSwitch> switching_list = new ArrayList<ScheduledSwitch>();
-    private Context mContext;
+    private View parent;
+    private View recycler;
 
-    public ProgramViewAdapter(Context context, List<ScheduledSwitch> list){
+    public ProgramViewAdapter(View parent, View recycler , List<ScheduledSwitch> list){
 
         this.switching_list = (ArrayList<ScheduledSwitch>) list;
-        this.mContext = context;
+        this.parent = parent;
+        this.recycler = recycler;
+        ProgramCreator creator = new ProgramCreator(parent, this);
     }
 
     @Override
     public void onBindViewHolder(ProgrammedViewHolder holder, int position) {
         ScheduledSwitch updated_switch;
-
         updated_switch = switching_list.get(position);
         holder.timer_name.setText(updated_switch.getName());
         holder.index = position;
@@ -54,7 +56,7 @@ public class ProgramViewAdapter extends RecyclerView.Adapter<ProgramViewAdapter.
 
     @Override
     public ProgrammedViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.prog_switch_layout, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.prog_switch_layout, parent, false);
         ProgrammedViewHolder viewHolder = new ProgrammedViewHolder(view);
         return viewHolder;
 
@@ -71,49 +73,14 @@ public class ProgramViewAdapter extends RecyclerView.Adapter<ProgramViewAdapter.
             super(view);
             LinearLayout header_layout = (LinearLayout) view.findViewById(R.id.root_prog_switch_layout).findViewById(R.id.header_prog_switch_layout);
             this.timer_name = (TextView) header_layout.findViewById(R.id.prog_name);
-            this.timer_name.setText("default");
-            this.timer_name.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    Log.v(TAG, "Click on prog name.\n");
-                }
-            });
 
             LinearLayout  content_layout = (LinearLayout) view.findViewById(R.id.root_prog_switch_layout).findViewById(R.id.content_prog_switch_layout);
             this.start_time = (TextView) content_layout.findViewById(R.id.prog_clock_start);
-            this.start_time.setText("00:00");
-            this.start_time.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    Log.v(TAG ,"Modify deadline");
-                    Calendar cal = Calendar.getInstance();
-
-                    TimePickerDialog deadlineSelector = new TimePickerDialog(mContext,
-                            new TimePickerDialog.OnTimeSetListener() {
-                                @Override
-                                public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
-                                    ProgrammedViewHolder.this.start_time.setText( hourOfDay + ":" + minute);
-                                }
-                            }, cal.get(Calendar.HOUR), cal.get(Calendar.MINUTE), true);
-                    deadlineSelector.setTitle("Select your charging deadline.");
-                    deadlineSelector.show();
-                }
-            });
 
             this.stop_time = (TextView) content_layout.findViewById(R.id.prog_clock_stop);
-            this.stop_time.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    Log.v(TAG ,"Modify charging time");
-                }
-            });
-            this.deleteButton= (ImageButton) header_layout.findViewById(R.id.prog_button_delete);
-            this.deleteButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    Log.v(TAG ,"Delete");
-                    ProgramViewAdapter.this.switching_list.remove(ProgrammedViewHolder.this.index);
-                    notifyDataSetChanged();
-                    Log.v(TAG ,"Removed " + ProgrammedViewHolder.this.index);
-                }
 
-            });
+            this.deleteButton= (ImageButton) header_layout.findViewById(R.id.prog_button_delete);
+
         }
 
     }

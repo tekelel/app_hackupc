@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
     private ProgramViewAdapter prog_adapter;
     private ViewPager viewPager;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
             switch (position) {
                 case 0:
                     if (page1 == null) {
-                        page1 = (LinearLayout) LayoutInflater.from(MainActivity.this).inflate(R.layout.page_one, collection, false);
+                        page1 = (LinearLayout) LayoutInflater.from(viewPager.getContext()).inflate(R.layout.page_one, collection, false);
                     }
                     page = page1;
                     break;
@@ -142,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
                         RecyclerView prog_view = (RecyclerView) page2.findViewById(R.id.scheduled_view);
                         prog_view.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                        prog_adapter = new ProgramViewAdapter(viewPager.getContext(),switch_array);
+                        prog_adapter = new ProgramViewAdapter(page2, page2, switch_array);
                         prog_view.setAdapter(prog_adapter);
 
                     }
@@ -160,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
 
                         RecyclerView eco_view = (RecyclerView) page3.findViewById(R.id.eco_view);
                         eco_view.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                        eco_adapter = new EcoViewAdapter(viewPager.getContext() , eco_array);
+                        eco_adapter = new EcoViewAdapter(page3, page3, eco_array);
                         eco_view.setAdapter(eco_adapter);
                     }
 

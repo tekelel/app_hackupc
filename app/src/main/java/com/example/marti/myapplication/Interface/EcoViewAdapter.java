@@ -38,15 +38,17 @@ import static android.content.ContentValues.TAG;
 public class EcoViewAdapter extends RecyclerView.Adapter<EcoViewAdapter.EcoViewHolder> {
 
     private ArrayList<ScheduledEcoSwitch> switching_list = new ArrayList<ScheduledEcoSwitch>();
-    private Context mContext;
+    private View parent;
+    private View recycler;
     private SocketProtocol protocol;
 
 
-    public EcoViewAdapter(Context context, List<ScheduledEcoSwitch> list){
+    public EcoViewAdapter(View parent, View recycler, List<ScheduledEcoSwitch> list){
 
         this.switching_list = (ArrayList<ScheduledEcoSwitch>) list;
-        this.mContext = context;
-
+        this.parent = parent;
+        this.recycler = recycler;
+        EcoCreator creator = new EcoCreator(parent, this);
     }
 
     @Override
@@ -69,7 +71,7 @@ public class EcoViewAdapter extends RecyclerView.Adapter<EcoViewAdapter.EcoViewH
     @Override
     public EcoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.eco_switch_layout, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.eco_switch_layout, parent, false);
         EcoViewHolder viewHolder = new EcoViewHolder(view);
         return viewHolder;
     }
@@ -81,110 +83,18 @@ public class EcoViewAdapter extends RecyclerView.Adapter<EcoViewAdapter.EcoViewH
         protected TextView selected_deadline;
         protected TextView charging_time;
 
-        protected void showNameInputDialog(){
-            // get prompts.xml view
-            LayoutInflater layoutInflater = LayoutInflater.from(EcoViewAdapter.this.mContext);
-            View promptView = layoutInflater.inflate(R.layout.text_input_dialog, null);
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(EcoViewAdapter.this.mContext);
-            alertDialogBuilder.setView(promptView);
-
-            final EditText editText = (EditText) promptView.findViewById(R.id.text_edittext);
-            // setup a dialog window
-            alertDialogBuilder.setCancelable(false)
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            charging_time.setText(editText.getText());
-                        }
-                    })
-                    .setNegativeButton("Cancel",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
-                                }
-                            });
-
-            // create an alert dialog
-            AlertDialog alert = alertDialogBuilder.create();
-            alert.show();
-        }
-
-        protected void showChargingTimeInputDialog(){
-            // get prompts.xml view
-            LayoutInflater layoutInflater = LayoutInflater.from(EcoViewAdapter.this.mContext);
-            View promptView = layoutInflater.inflate(R.layout.text_input_dialog, null);
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(EcoViewAdapter.this.mContext);
-            alertDialogBuilder.setView(promptView);
-
-            final EditText editText = (EditText) promptView.findViewById(R.id.text_edittext);
-            editText.setInputType(InputType.TYPE_CLASS_NUMBER);
-            editText.setRawInputType(Configuration.KEYBOARD_12KEY);
-            // setup a dialog window
-            alertDialogBuilder.setCancelable(false)
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            timer_name.setText(editText.getText());
-                        }
-                    })
-                    .setNegativeButton("Cancel",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
-                                }
-                            });
-
-            // create an alert dialog
-            AlertDialog alert = alertDialogBuilder.create();
-            alert.show();
-        }
-
         public EcoViewHolder(View view) {
             super(view);
             LinearLayout  header_layout = (LinearLayout) view.findViewById(R.id.root_eco_switch_layout).findViewById(R.id.header_eco_switch_layout);
             this.timer_name = (TextView) header_layout.findViewById(R.id.eco_name);
-            this.timer_name.setText("default");
-            this.timer_name.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    showNameInputDialog();
-                }
-            });
 
             LinearLayout  content_layout = (LinearLayout) view.findViewById(R.id.root_eco_switch_layout).findViewById(R.id.content_eco_switch_layout);
             this.selected_deadline = (TextView) content_layout.findViewById(R.id.eco_clock_deadline);
-            this.selected_deadline.setText("00:00");
-            this.selected_deadline.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    Log.v(TAG ,"Modify deadline");
-                    Calendar cal = Calendar.getInstance();
-
-                    TimePickerDialog deadlineSelector = new TimePickerDialog(mContext,
-                            new TimePickerDialog.OnTimeSetListener() {
-                                @Override
-                                public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
-                                    EcoViewHolder.this.selected_deadline.setText( hourOfDay + ":" + minute);
-                                }
-                            }, cal.get(Calendar.HOUR), cal.get(Calendar.MINUTE), true);
-                    deadlineSelector.setTitle("Select your charging deadline.");
-                    deadlineSelector.show();
-                }
-            });
 
             this.charging_time = (TextView) content_layout.findViewById(R.id.eco_charging_time);
-            this.charging_time.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    Log.v(TAG ,"Modify charging time");
-                    showChargingTimeInputDialog();
-                }
-            });
-            this.deleteButton= (ImageButton) header_layout.findViewById(R.id.eco_button_delete);
-            this.deleteButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    Log.v(TAG ,"Delete");
-                    EcoViewAdapter.this.switching_list.remove(EcoViewHolder.this.index);
-                    notifyDataSetChanged();
-                    Log.v(TAG ,"Removed " + EcoViewHolder.this.index);
-                }
 
-            });
+            this.deleteButton= (ImageButton) header_layout.findViewById(R.id.eco_button_delete);
+
         }
     }
 
