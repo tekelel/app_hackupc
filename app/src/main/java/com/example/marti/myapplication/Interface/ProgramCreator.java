@@ -17,6 +17,7 @@ import android.widget.TimePicker;
 
 import com.example.marti.myapplication.Coms.MyCallback;
 import com.example.marti.myapplication.Coms.SocketProtocol;
+import com.example.marti.myapplication.Coms.SocketProtocolOperation;
 import com.example.marti.myapplication.Model.ScheduledSwitch;
 import com.example.marti.myapplication.R;
 
@@ -139,12 +140,13 @@ class ProgramCreator implements View.OnClickListener, MyCallback {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Log.v(TAG, "Sending add programmed switch request");
-                        SocketProtocol.add_program_switch(
+                        String[] args = {
                                 timer_name.getText().toString(),
                                 start_time.getText().toString(),
-                                stop_time.getText().toString(),
-                                ProgramCreator.this
-                        );
+                                stop_time.getText().toString()
+                        };
+                        SocketProtocolOperation initOp = new SocketProtocolOperation(ProgramCreator.this ,SocketProtocolOperation.CREATE_PRO, args);
+                        initOp.execute("");
                     }
                 })
                 .setNegativeButton("Cancel",

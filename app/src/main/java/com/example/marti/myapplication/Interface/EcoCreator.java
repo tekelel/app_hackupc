@@ -18,6 +18,7 @@ import android.widget.TimePicker;
 
 import com.example.marti.myapplication.Coms.MyCallback;
 import com.example.marti.myapplication.Coms.SocketProtocol;
+import com.example.marti.myapplication.Coms.SocketProtocolOperation;
 import com.example.marti.myapplication.Model.ScheduledEcoSwitch;
 import com.example.marti.myapplication.R;
 
@@ -100,7 +101,12 @@ public class EcoCreator implements View.OnClickListener, MyCallback {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Log.v(TAG,"Enviada request de crear un scheduler ECO.");
-                        SocketProtocol.add_eco_switch(timer_name.toString(), selected_deadline.toString(), charging_time.toString(), EcoCreator.this);
+                        String[] args = {timer_name.getText().toString(),
+                                        selected_deadline.getText().toString(),
+                                        charging_time.getText().toString()
+                        };
+                        SocketProtocolOperation initOp = new SocketProtocolOperation(EcoCreator.this ,SocketProtocolOperation.CREATE_ECO, args);
+                        initOp.execute("");
                         }
                 })
                 .setNegativeButton("Cancel",

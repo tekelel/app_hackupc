@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.example.marti.myapplication.Coms.MyCallback;
 import com.example.marti.myapplication.Coms.SocketController;
 import com.example.marti.myapplication.Coms.SocketProtocol;
+import com.example.marti.myapplication.Coms.SocketProtocolOperation;
 import com.example.marti.myapplication.R;
 
 import static android.content.ContentValues.TAG;
@@ -32,7 +33,8 @@ public class ButtonController  implements View.OnClickListener {
 
         /* init the status asnychorniously*/
         Log.v(TAG, "Sent init request.");
-        SocketProtocol.send_init(new InitState());
+        SocketProtocolOperation initOp = new SocketProtocolOperation(new InitState(),SocketProtocolOperation.INIT, null);
+        initOp.execute("");
     }
 
     @Override
@@ -40,10 +42,12 @@ public class ButtonController  implements View.OnClickListener {
         /* toogle */
         if(!status){
             Log.v(TAG, "Sent on request.");
-            SocketProtocol.send_on(new UpdateAfterOn());
+            SocketProtocolOperation initOp = new SocketProtocolOperation(new UpdateAfterOn(),SocketProtocolOperation.SEND_ON, null);
+            initOp.execute("");
         }else{
             Log.v(TAG, "Sent off request.");
-            SocketProtocol.send_off(new UpdateAfterOff());
+            SocketProtocolOperation initOp = new SocketProtocolOperation(new UpdateAfterOff(),SocketProtocolOperation.SEND_OFF, null);
+            initOp.execute("");
         }
     }
 
@@ -51,6 +55,8 @@ public class ButtonController  implements View.OnClickListener {
 
         @Override
         public void callback(boolean result) {
+            status = true;
+            Log.v(TAG, "ON SET SUCCESSFULLY.");
             state.setText("ON");
         }
     }
@@ -59,6 +65,8 @@ public class ButtonController  implements View.OnClickListener {
 
         @Override
         public void callback(boolean result) {
+            status = false;
+            Log.v(TAG, "OFF SET SUCCESSFULLY.");
             state.setText("OFF");
         }
     }
