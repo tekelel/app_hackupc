@@ -1,75 +1,100 @@
 
 <android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:cardview="http://schemas.android.com/apk/res-auto"
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:cardview="http://schemas.android.com/apk/res-auto"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_marginBottom="5dp"
+android:background="@color/colorSeparator"
+cardview:cardCornerRadius="2dp"
+cardview:cardElevation="3dp"
+cardview:cardUseCompatPadding="true">
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_prog_switch_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="5dp"
-    android:background="@color/colorSeparator"
-    cardview:cardCornerRadius="2dp"
-    cardview:cardElevation="3dp"
-    cardview:cardUseCompatPadding="true">
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/colorPrimary">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/header_prog_switch_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:gravity="center"
-        android:padding="5dp"
         android:background="@color/colorPrimary">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <TextView
+            android:id="@+id/prog_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:background="@color/colorPrimary">
+            android:text="@string/page1"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/white"
+            android:layout_weight="1"
+            />
 
-            <TextView
-                android:id="@+id/prog_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/page1"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@android:color/white"
-                android:layout_weight="1"
-                />
-
-            <ImageButton
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/ic_action_delete"
-                android:layout_weight="0"
-                />
-        </LinearLayout>
-
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:background="@color/colorPrimary">
-
-            <TextView
-                android:id="@+id/prog_clock_start"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/default_clock"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@android:color/white"
-                android:layout_weight="1"
-                />
-
-            <TextView
-                android:id="@+id/prog_clock_stop"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/default_clock"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@android:color/white"
-                android:layout_weight="1"
-                />
-
-        </LinearLayout>
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/prog_button_delete"
+            android:src="@drawable/ic_action_delete"
+            android:layout_weight="0"
+            />
     </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/content_prog_switch_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:id="@+id/prog_clock_start_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/start_time_header"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/white"
+            android:layout_weight="1"
+            />
+
+        <TextView
+            android:id="@+id/prog_clock_start"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/start_time_default"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/white"
+            android:layout_weight="1"
+            />
+
+        <TextView
+            android:id="@+id/prog_clock_stop_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/stop_time_header"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/white"
+            android:layout_weight="1"
+            />
+
+        <TextView
+            android:id="@+id/prog_clock_stop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/stop_time_default"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/white"
+            android:layout_weight="1"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>
 </android.support.v7.widget.CardView>

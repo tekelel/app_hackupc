@@ -1,11 +1,16 @@
 package com.example.marti.myapplication.Interface;
 
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.example.marti.myapplication.Coms.MyCallback;
 import com.example.marti.myapplication.Model.ScheduledEcoSwitch;
@@ -13,7 +18,10 @@ import com.example.marti.myapplication.Model.ScheduledSwitch;
 import com.example.marti.myapplication.R;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by marti on 04/03/17.
@@ -35,7 +43,8 @@ public class ProgramViewAdapter extends RecyclerView.Adapter<ProgramViewAdapter.
         ScheduledSwitch updated_switch;
 
         updated_switch = switching_list.get(position);
-        holder.textView.setText(updated_switch.getName());
+        holder.timer_name.setText(updated_switch.getName());
+        holder.index = position;
     }
 
     @Override
@@ -52,12 +61,61 @@ public class ProgramViewAdapter extends RecyclerView.Adapter<ProgramViewAdapter.
     }
 
     protected class ProgrammedViewHolder extends RecyclerView.ViewHolder{
-        protected TextView textView;
+        protected int index;
+        protected TextView timer_name;
+        protected ImageButton deleteButton;
+        protected TextView start_time;
+        protected TextView stop_time;
 
         public ProgrammedViewHolder(View view) {
             super(view);
-            this.textView = (TextView) view.findViewById(R.id.prog_text);
+            LinearLayout header_layout = (LinearLayout) view.findViewById(R.id.root_prog_switch_layout).findViewById(R.id.header_prog_switch_layout);
+            this.timer_name = (TextView) header_layout.findViewById(R.id.prog_name);
+            this.timer_name.setText("default");
+            this.timer_name.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Log.v(TAG, "Click on prog name.\n");
+                }
+            });
+
+            LinearLayout  content_layout = (LinearLayout) view.findViewById(R.id.root_prog_switch_layout).findViewById(R.id.content_prog_switch_layout);
+            this.start_time = (TextView) content_layout.findViewById(R.id.prog_clock_start);
+            this.start_time.setText("00:00");
+            this.start_time.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Log.v(TAG ,"Modify deadline");
+                    Calendar cal = Calendar.getInstance();
+
+                    TimePickerDialog deadlineSelector = new TimePickerDialog(mContext,
+                            new TimePickerDialog.OnTimeSetListener() {
+                                @Override
+                                public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
+                                    ProgrammedViewHolder.this.start_time.setText( hourOfDay + ":" + minute);
+                                }
+                            }, cal.get(Calendar.HOUR), cal.get(Calendar.MINUTE), true);
+                    deadlineSelector.setTitle("Select your charging deadline.");
+                    deadlineSelector.show();
+                }
+            });
+
+            this.stop_time = (TextView) content_layout.findViewById(R.id.prog_clock_stop);
+            this.stop_time.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Log.v(TAG ,"Modify charging time");
+                }
+            });
+            this.deleteButton= (ImageButton) header_layout.findViewById(R.id.prog_button_delete);
+            this.deleteButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Log.v(TAG ,"Delete");
+                    ProgramViewAdapter.this.switching_list.remove(ProgrammedViewHolder.this.index);
+                    notifyDataSetChanged();
+                    Log.v(TAG ,"Removed " + ProgrammedViewHolder.this.index);
+                }
+
+            });
         }
+
     }
 
     public class Update_after_add_program_switch implements MyCallback {
@@ -75,4 +133,5 @@ public class ProgramViewAdapter extends RecyclerView.Adapter<ProgramViewAdapter.
 
         }
     }
+
 }

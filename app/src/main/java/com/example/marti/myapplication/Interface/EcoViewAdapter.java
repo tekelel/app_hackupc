@@ -189,7 +189,7 @@ public class EcoViewAdapter extends RecyclerView.Adapter<EcoViewAdapter.EcoViewH
     }
 
 
-    public class Update_after_add_eco_switch implements MyCallback {
+    public class Update_after_add_prog_switch implements MyCallback {
 
         @Override
         public void callback(boolean result) {
@@ -197,7 +197,7 @@ public class EcoViewAdapter extends RecyclerView.Adapter<EcoViewAdapter.EcoViewH
         }
     }
 
-    public class Update_after_delete_eco_switch implements MyCallback {
+    public class Update_after_delete_prog_switch implements MyCallback {
 
         @Override
         public void callback(boolean result) {

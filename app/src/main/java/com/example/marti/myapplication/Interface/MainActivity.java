@@ -3,6 +3,7 @@ package com.example.marti.myapplication.Interface;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -105,8 +106,8 @@ public class MainActivity extends AppCompatActivity {
     class MainPageAdapter extends PagerAdapter {
 
         private LinearLayout page1;
-        private LinearLayout page2;
-        private LinearLayout page3;
+        private CoordinatorLayout page2;
+        private CoordinatorLayout page3;
         private final int[] titles = {R.string.page1, R.string.page2, R.string.page3};
 
         @Override
@@ -132,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case 1:
                     if (page2 == null) {
-                        page2 = (LinearLayout) LayoutInflater.from(viewPager.getContext()).inflate(R.layout.page_two, collection, false);
+                        page2 = (CoordinatorLayout) LayoutInflater.from(viewPager.getContext()).inflate(R.layout.page_two, collection, false);
 
                         ArrayList<ScheduledSwitch> switch_array = new ArrayList<>();
                         for(int i = 0; i < 50; i++){
@@ -150,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case 2:
                     if (page3 == null) {
-                        page3 = (LinearLayout) LayoutInflater.from(viewPager.getContext()).inflate(R.layout.page_three, collection, false);
+                        page3 = (CoordinatorLayout) LayoutInflater.from(viewPager.getContext()).inflate(R.layout.page_three, collection, false);
 
                         ArrayList<ScheduledEcoSwitch> eco_array = new ArrayList<>();
                         for(int i = 0; i < 50; i++){
