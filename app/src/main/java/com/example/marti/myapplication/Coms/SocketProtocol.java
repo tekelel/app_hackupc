@@ -9,6 +9,10 @@ public class SocketProtocol {
     private final int server_port = 12345;
     private final String server_url = "ec2-34-249-135-120.eu-west-1.compute.amazonaws.com";
 
+    static public void send_init(MyCallback callback){
+
+    }
+
     static public void send_on(MyCallback callback){
 
     }
