@@ -68,6 +68,11 @@ public class ProgramViewAdapter extends RecyclerView.Adapter<ProgramViewAdapter.
 
     }
 
+    public void addElement(ScheduledSwitch sched_switch) {
+        switching_list.add(sched_switch);
+        notifyDataSetChanged();
+    }
+
     protected class ProgrammedViewHolder extends RecyclerView.ViewHolder{
         protected int index;
         protected TextView timer_name;

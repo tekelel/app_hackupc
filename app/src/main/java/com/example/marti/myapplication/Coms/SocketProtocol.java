@@ -29,7 +29,7 @@ public class SocketProtocol {
 
     }
 
-    static public void add_eco_switch(String name, String start_time, String stop_time, MyCallback callback ){
+    static public void add_eco_switch(String name, String deadline, String charge_time, MyCallback callback ){
 
     }
     static public void delete_eco_switch(String name, MyCallback callback ){

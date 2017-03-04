@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.marti.myapplication.Coms.MyCallback;
+import com.example.marti.myapplication.Coms.SocketProtocol;
 import com.example.marti.myapplication.Model.ScheduledSwitch;
 import com.example.marti.myapplication.R;
 
@@ -137,11 +138,13 @@ class ProgramCreator implements View.OnClickListener, MyCallback {
         alertDialogBuilder.setCancelable(false)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Log.v(TAG,"Adding new Prog scheduler with name " + timer_name.getText() + " and startTime " + start_time.getText()
-                                + " and stop time " + stop_time.getText());
-                        handler.addSwitchSchedule(new ScheduledSwitch(timer_name.getText().toString(),start_time.getText().toString(),stop_time.getText().toString()));
-
-
+                        Log.v(TAG, "Sending add programmed switch request");
+                        SocketProtocol.add_program_switch(
+                                timer_name.getText().toString(),
+                                start_time.getText().toString(),
+                                stop_time.getText().toString(),
+                                ProgramCreator.this
+                        );
                     }
                 })
                 .setNegativeButton("Cancel",
@@ -156,11 +159,15 @@ class ProgramCreator implements View.OnClickListener, MyCallback {
         alert.show();
     }
 
-
-
-
     @Override
     public void callback(boolean result) {
+
+        Log.v(TAG,"Adding new Prog scheduler with name " + timer_name.getText() + " and startTime " + start_time.getText()
+                + " and stop time " + stop_time.getText());
+        ScheduledSwitch sched_switch = new ScheduledSwitch(timer_name.getText().toString(),start_time.getText().toString(),stop_time.getText().toString());
+        handler.addSwitchSchedule(sched_switch);
+
+        adapter.addElement(sched_switch);
 
     }
 }

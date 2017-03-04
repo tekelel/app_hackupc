@@ -41,7 +41,8 @@ public class EcoViewAdapter extends RecyclerView.Adapter<EcoViewAdapter.EcoViewH
     private View parent;
     private View recycler;
     private SocketProtocol protocol;
-    private  SQLiteDatabaseHandler handler;
+    private SQLiteDatabaseHandler handler;
+    private int lastDeletedIndex = -1;
 
 
     public EcoViewAdapter(View parent, View recycler, List<ScheduledEcoSwitch> list, SQLiteDatabaseHandler handler){
@@ -82,6 +83,11 @@ public class EcoViewAdapter extends RecyclerView.Adapter<EcoViewAdapter.EcoViewH
         return viewHolder;
     }
 
+    public void addElement(ScheduledEcoSwitch scheduledEcoSwitch) {
+        switching_list.add(scheduledEcoSwitch);
+        notifyDataSetChanged();
+    }
+
     protected class EcoViewHolder extends RecyclerView.ViewHolder{
         protected int index;
         protected TextView timer_name;
@@ -106,29 +112,10 @@ public class EcoViewAdapter extends RecyclerView.Adapter<EcoViewAdapter.EcoViewH
                         handler.dropSchedule(switching_list.get(index).getName(),1);
                         switching_list.remove(index);
                         EcoViewAdapter.this.notifyDataSetChanged();
-
                     }
                 }
             );
 
         }
     }
-
-
-    public class Update_after_add_prog_switch implements MyCallback {
-
-        @Override
-        public void callback(boolean result) {
-
-        }
-    }
-
-    public class Update_after_delete_prog_switch implements MyCallback {
-
-        @Override
-        public void callback(boolean result) {
-
-        }
-    }
-
 }
