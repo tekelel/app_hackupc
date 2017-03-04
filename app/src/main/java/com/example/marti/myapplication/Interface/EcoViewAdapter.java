@@ -41,14 +41,16 @@ public class EcoViewAdapter extends RecyclerView.Adapter<EcoViewAdapter.EcoViewH
     private View parent;
     private View recycler;
     private SocketProtocol protocol;
+    private  SQLiteDatabaseHandler handler;
 
 
-    public EcoViewAdapter(View parent, View recycler, List<ScheduledEcoSwitch> list){
+    public EcoViewAdapter(View parent, View recycler, List<ScheduledEcoSwitch> list, SQLiteDatabaseHandler handler){
 
         this.switching_list = (ArrayList<ScheduledEcoSwitch>) list;
         this.parent = parent;
         this.recycler = recycler;
-        EcoCreator creator = new EcoCreator(parent, this);
+        this.handler = handler;
+        EcoCreator creator = new EcoCreator(parent, this, handler);
     }
 
     @Override
@@ -97,7 +99,16 @@ public class EcoViewAdapter extends RecyclerView.Adapter<EcoViewAdapter.EcoViewH
 
             this.charging_time = (TextView) content_layout.findViewById(R.id.eco_charging_time);
 
-            this.deleteButton= (ImageButton) header_layout.findViewById(R.id.eco_button_delete);
+            this.deleteButton = (ImageButton) header_layout.findViewById(R.id.eco_button_delete);
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        switching_list.remove(index);
+                        EcoViewAdapter.this.notifyDataSetChanged();
+
+                    }
+                }
+            );
 
         }
     }

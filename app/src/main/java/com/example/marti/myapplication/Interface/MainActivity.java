@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<ScheduledSwitch> scheduledswitches;
     private ArrayList<ScheduledEcoSwitch> scheduledecoswitches;
     private static final String TAG = "MyActivity";
+    private SQLiteDatabaseHandler db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(new MainPageAdapter());
-        SQLiteDatabaseHandler db = new SQLiteDatabaseHandler(this.getApplicationContext());
+        db = new SQLiteDatabaseHandler(this.getApplicationContext());
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
         tabLayout.setupWithViewPager(viewPager);
@@ -164,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
 
                         RecyclerView prog_view = (RecyclerView) page2.findViewById(R.id.scheduled_view);
                         prog_view.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                        prog_adapter = new ProgramViewAdapter(page2, page2, scheduledswitches);
+                        prog_adapter = new ProgramViewAdapter(page2, page2, scheduledswitches, db);
                         prog_view.setAdapter(prog_adapter);
 
                     }
@@ -178,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
 
                         RecyclerView eco_view = (RecyclerView) page3.findViewById(R.id.eco_view);
                         eco_view.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                        eco_adapter = new EcoViewAdapter(page3, page3, scheduledecoswitches);
+                        eco_adapter = new EcoViewAdapter(page3, page3, scheduledecoswitches, db);
 
                         eco_view.setAdapter(eco_adapter);
                     }

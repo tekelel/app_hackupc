@@ -34,10 +34,12 @@ public class EcoCreator implements View.OnClickListener, MyCallback {
     protected TextView timer_name;
     protected TextView selected_deadline;
     protected TextView charging_time;
+    protected  SQLiteDatabaseHandler handler;
 
-    public EcoCreator(View parent, EcoViewAdapter adapter){
+    public EcoCreator(View parent, EcoViewAdapter adapter, SQLiteDatabaseHandler handler){
         this.parent = parent;
         this.adapter = adapter;
+        this.handler = handler;
 
         FloatingActionButton fab = (FloatingActionButton) parent.findViewById(R.id.fab);
         fab.setOnClickListener(this);
@@ -95,6 +97,7 @@ public class EcoCreator implements View.OnClickListener, MyCallback {
         alertDialogBuilder.setCancelable(false)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        /* --------------------------- INSERTAR LOGICA DE BASE DE DATOS AQUIIIIIIII --------------------------------------*/
                         Log.v(TAG,"Adding new Eco scheduler with name " + EcoCreator.this.timer_name.getText() + " and deadline " + EcoCreator.this.selected_deadline.getText()
                         + " and charging time " + EcoCreator.this.charging_time.getText());
                     }
@@ -135,6 +138,7 @@ public class EcoCreator implements View.OnClickListener, MyCallback {
                         });
 
         // create an alert dialog
+
         AlertDialog alert = alertDialogBuilder.create();
         alert.show();
     }

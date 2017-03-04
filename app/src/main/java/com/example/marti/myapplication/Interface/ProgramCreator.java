@@ -34,10 +34,12 @@ class ProgramCreator implements View.OnClickListener, MyCallback {
     protected ImageButton deleteButton;
     protected TextView start_time;
     protected TextView stop_time;
+    protected SQLiteDatabaseHandler handler;
 
-    public ProgramCreator(View parent, ProgramViewAdapter adapter) {
+    public ProgramCreator(View parent, ProgramViewAdapter adapter, SQLiteDatabaseHandler handler) {
         this.parent = parent;
         this.adapter = adapter;
+        this.handler = handler;
 
         FloatingActionButton fab = (FloatingActionButton) parent.findViewById(R.id.fab);
         fab.setOnClickListener(this);
@@ -136,6 +138,8 @@ class ProgramCreator implements View.OnClickListener, MyCallback {
                     public void onClick(DialogInterface dialog, int id) {
                         Log.v(TAG,"Adding new Prog scheduler with name " + timer_name.getText() + " and startTime " + start_time.getText()
                                 + " and stop time " + stop_time.getText());
+                                /* --------------------------- INSERTAR LOGICA DE BASE DE DATOS AQUIIIIIIII --------------------------------------*/
+
                     }
                 })
                 .setNegativeButton("Cancel",

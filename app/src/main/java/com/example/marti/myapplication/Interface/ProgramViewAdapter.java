@@ -32,13 +32,15 @@ public class ProgramViewAdapter extends RecyclerView.Adapter<ProgramViewAdapter.
     private ArrayList<ScheduledSwitch> switching_list = new ArrayList<ScheduledSwitch>();
     private View parent;
     private View recycler;
+    private  SQLiteDatabaseHandler handler;
 
-    public ProgramViewAdapter(View parent, View recycler , List<ScheduledSwitch> list){
+    public ProgramViewAdapter(View parent, View recycler , List<ScheduledSwitch> list, SQLiteDatabaseHandler handler){
 
         this.switching_list = (ArrayList<ScheduledSwitch>) list;
         this.parent = parent;
         this.recycler = recycler;
-        ProgramCreator creator = new ProgramCreator(parent, this);
+        this.handler = handler;
+        ProgramCreator creator = new ProgramCreator(parent, this, handler);
     }
 
     @Override
@@ -84,6 +86,14 @@ public class ProgramViewAdapter extends RecyclerView.Adapter<ProgramViewAdapter.
             this.stop_time = (TextView) content_layout.findViewById(R.id.prog_clock_stop);
 
             this.deleteButton= (ImageButton) header_layout.findViewById(R.id.prog_button_delete);
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        switching_list.remove(index);
+                        ProgramViewAdapter.this.notifyDataSetChanged();
+                    }
+                }
+            );
 
         }
 
