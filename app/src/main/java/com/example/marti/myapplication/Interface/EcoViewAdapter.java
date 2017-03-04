@@ -103,6 +103,7 @@ public class EcoViewAdapter extends RecyclerView.Adapter<EcoViewAdapter.EcoViewH
             deleteButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        handler.dropSchedule(switching_list.get(index).getName(),1);
                         switching_list.remove(index);
                         EcoViewAdapter.this.notifyDataSetChanged();
 

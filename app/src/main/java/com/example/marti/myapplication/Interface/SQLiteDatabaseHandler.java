@@ -84,11 +84,11 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         if(i==0)
         {
-            db.execSQL("DELETE FROM " + TABLE_SWITCH + "WHERE NAME= '"+name+"'");
+            db.execSQL("DELETE FROM " + TABLE_SWITCH + " WHERE NAME='"+name+"'");
         }
         else
         {
-            db.execSQL("DELETE FROM " + TABLE_ECO + "WHERE NAME= '"+name+"'");
+            db.execSQL("DELETE FROM " + TABLE_ECO + " WHERE NAME='"+name+"'");
         }
     }
 

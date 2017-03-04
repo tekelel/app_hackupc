@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.marti.myapplication.Coms.MyCallback;
+import com.example.marti.myapplication.Model.ScheduledEcoSwitch;
 import com.example.marti.myapplication.R;
 
 import java.util.Calendar;
@@ -100,6 +101,7 @@ public class EcoCreator implements View.OnClickListener, MyCallback {
                         /* --------------------------- INSERTAR LOGICA DE BASE DE DATOS AQUIIIIIIII --------------------------------------*/
                         Log.v(TAG,"Adding new Eco scheduler with name " + EcoCreator.this.timer_name.getText() + " and deadline " + EcoCreator.this.selected_deadline.getText()
                         + " and charging time " + EcoCreator.this.charging_time.getText());
+                        handler.addEcoSchedule(new ScheduledEcoSwitch(EcoCreator.this.timer_name.getText().toString(),EcoCreator.this.selected_deadline.getText().toString(),EcoCreator.this.charging_time.getText().toString()));
                     }
                 })
                 .setNegativeButton("Cancel",

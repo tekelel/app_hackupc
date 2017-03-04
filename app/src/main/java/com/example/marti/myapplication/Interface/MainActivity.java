@@ -57,21 +57,6 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
         addSeparators(tabLayout);
 
-
-        ScheduledEcoSwitch so = new ScheduledEcoSwitch("hola","12:00","16:00");
-        db.addEcoSchedule(so);
-        so = new ScheduledEcoSwitch("fsfs","12:00","16:00");
-        db.addEcoSchedule(so);
-        so = new ScheduledEcoSwitch("hoffddgla","12:00","16:00");
-        db.addEcoSchedule(so);
-
-        ScheduledSwitch sc = new ScheduledSwitch("hola","12:00","16:00");
-        db.addSwitchSchedule(sc);
-        sc = new ScheduledSwitch("fsfs","12:00","16:00");
-        db.addSwitchSchedule(sc);
-        sc = new ScheduledSwitch("hoffddgla","12:00","16:00");
-        db.addSwitchSchedule(sc);
-
         try {
             scheduledecoswitches = db.loadEcoData();
             scheduledswitches = db.loadSwitchData();

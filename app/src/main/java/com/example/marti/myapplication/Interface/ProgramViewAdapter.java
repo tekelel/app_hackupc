@@ -89,6 +89,7 @@ public class ProgramViewAdapter extends RecyclerView.Adapter<ProgramViewAdapter.
             deleteButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        handler.dropSchedule(switching_list.get(index).getName(),0);
                         switching_list.remove(index);
                         ProgramViewAdapter.this.notifyDataSetChanged();
                     }

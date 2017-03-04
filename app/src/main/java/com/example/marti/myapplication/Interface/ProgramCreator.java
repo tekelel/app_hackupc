@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.marti.myapplication.Coms.MyCallback;
+import com.example.marti.myapplication.Model.ScheduledSwitch;
 import com.example.marti.myapplication.R;
 
 import java.util.Calendar;
@@ -138,7 +139,8 @@ class ProgramCreator implements View.OnClickListener, MyCallback {
                     public void onClick(DialogInterface dialog, int id) {
                         Log.v(TAG,"Adding new Prog scheduler with name " + timer_name.getText() + " and startTime " + start_time.getText()
                                 + " and stop time " + stop_time.getText());
-                                /* --------------------------- INSERTAR LOGICA DE BASE DE DATOS AQUIIIIIIII --------------------------------------*/
+                        handler.addSwitchSchedule(new ScheduledSwitch(timer_name.getText().toString(),start_time.getText().toString(),stop_time.getText().toString()));
+
 
                     }
                 })
