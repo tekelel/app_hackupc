@@ -7,6 +7,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,15 +35,22 @@ public class ProgramViewAdapter extends RecyclerView.Adapter<ProgramViewAdapter.
     private ArrayList<ScheduledSwitch> switching_list = new ArrayList<ScheduledSwitch>();
     private View parent;
     private View recycler;
-    private  SQLiteDatabaseHandler handler;
+    private final ThreadLocal<SQLiteDatabaseHandler> handler = new ThreadLocal<>();
+    private int lastPosition;
 
     public ProgramViewAdapter(View parent, View recycler , List<ScheduledSwitch> list, SQLiteDatabaseHandler handler){
 
         this.switching_list = (ArrayList<ScheduledSwitch>) list;
         this.parent = parent;
         this.recycler = recycler;
-        this.handler = handler;
+        this.handler.set(handler);
         ProgramCreator creator = new ProgramCreator(parent, this, handler);
+    }
+
+    private void setScaleAnimation(View view) {
+        // If the bound view wasn't previously displayed on screen, it's animated
+        Animation animation = AnimationUtils.loadAnimation(view.getContext(), android.R.anim.slide_in_left);
+        view.startAnimation(animation);
     }
 
     @Override
@@ -48,8 +58,15 @@ public class ProgramViewAdapter extends RecyclerView.Adapter<ProgramViewAdapter.
         ScheduledSwitch updated_switch;
         updated_switch = switching_list.get(position);
         holder.timer_name.setText(updated_switch.getName());
+        holder.start_time.setText(updated_switch.getStart_time());
+        holder.stop_time.setText(updated_switch.getEnd_time());
+
         holder.index = position;
+
+        setScaleAnimation(holder.itemView);
     }
+
+
 
     @Override
     public int getItemCount() {
@@ -70,7 +87,7 @@ public class ProgramViewAdapter extends RecyclerView.Adapter<ProgramViewAdapter.
 
     public void addElement(ScheduledSwitch sched_switch) {
         switching_list.add(sched_switch);
-        notifyDataSetChanged();
+        notifyItemInserted(getItemCount());
     }
 
     protected class ProgrammedViewHolder extends RecyclerView.ViewHolder{
@@ -94,9 +111,9 @@ public class ProgramViewAdapter extends RecyclerView.Adapter<ProgramViewAdapter.
             deleteButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        handler.dropSchedule(switching_list.get(index).getName(),0);
+                        handler.get().dropSchedule(switching_list.get(index).getName(),0);
                         switching_list.remove(index);
-                        ProgramViewAdapter.this.notifyDataSetChanged();
+                        ProgramViewAdapter.this.notifyItemRemoved(index);
                     }
                 }
             );

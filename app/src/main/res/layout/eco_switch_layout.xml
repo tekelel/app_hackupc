@@ -25,6 +25,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
+            android:padding="5dp"
             android:background="@color/colorPrimary">
 
             <TextView
@@ -52,6 +53,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
+        android:padding="5dp"
         android:background="@color/colorPrimary">
 
         <TextView

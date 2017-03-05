@@ -3,8 +3,8 @@
 <resources>
     <string name="app_name">Smart Charger</string>
     <string name="page1">The Button</string>
-    <string name="page2">Page 2</string>
-    <string name="page3">Page 3</string>
+    <string name="page2">Program </string>
+    <string name="page3">Eco mode</string>
     <string name="action_about">About</string>
     <string name="default_clock">00:00</string>
     <string name="deadline_header">Before: </string>

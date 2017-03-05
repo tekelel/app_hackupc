@@ -12,6 +12,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.ScaleAnimation;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -40,9 +43,8 @@ public class EcoViewAdapter extends RecyclerView.Adapter<EcoViewAdapter.EcoViewH
     private ArrayList<ScheduledEcoSwitch> switching_list = new ArrayList<ScheduledEcoSwitch>();
     private View parent;
     private View recycler;
-    private SocketProtocol protocol;
     private SQLiteDatabaseHandler handler;
-    private int lastDeletedIndex = -1;
+
 
 
     public EcoViewAdapter(View parent, View recycler, List<ScheduledEcoSwitch> list, SQLiteDatabaseHandler handler){
@@ -52,6 +54,12 @@ public class EcoViewAdapter extends RecyclerView.Adapter<EcoViewAdapter.EcoViewH
         this.recycler = recycler;
         this.handler = handler;
         EcoCreator creator = new EcoCreator(parent, this, handler);
+    }
+
+    private void setScaleAnimation(View view) {
+        // If the bound view wasn't previously displayed on screen, it's animated
+        Animation animation = AnimationUtils.loadAnimation(view.getContext(), android.R.anim.slide_in_left);
+        view.startAnimation(animation);
     }
 
     @Override
@@ -64,6 +72,9 @@ public class EcoViewAdapter extends RecyclerView.Adapter<EcoViewAdapter.EcoViewH
         holder.selected_deadline.setText(updated_switch.getDeadline());
         holder.charging_time.setText(updated_switch.getCharging_hours());
         holder.index = position;
+
+        // Here you apply the animation when the view is bound
+        setScaleAnimation(holder.itemView);
     }
 
     @Override
@@ -85,7 +96,7 @@ public class EcoViewAdapter extends RecyclerView.Adapter<EcoViewAdapter.EcoViewH
 
     public void addElement(ScheduledEcoSwitch scheduledEcoSwitch) {
         switching_list.add(scheduledEcoSwitch);
-        notifyDataSetChanged();
+        EcoViewAdapter.this.notifyItemInserted(getItemCount());
     }
 
     protected class EcoViewHolder extends RecyclerView.ViewHolder{
@@ -111,11 +122,13 @@ public class EcoViewAdapter extends RecyclerView.Adapter<EcoViewAdapter.EcoViewH
                     public void onClick(View view) {
                         handler.dropSchedule(switching_list.get(index).getName(),1);
                         switching_list.remove(index);
-                        EcoViewAdapter.this.notifyDataSetChanged();
+                        EcoViewAdapter.this.notifyItemRemoved(index);
                     }
                 }
             );
 
         }
     }
+
+
 }

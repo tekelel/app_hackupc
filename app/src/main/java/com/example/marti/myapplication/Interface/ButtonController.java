@@ -1,9 +1,14 @@
 package com.example.marti.myapplication.Interface;
 
 import android.content.DialogInterface;
+import android.graphics.Outline;
+import android.graphics.PorterDuff;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatImageButton;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.marti.myapplication.Coms.MyCallback;
@@ -21,14 +26,12 @@ import static android.content.ContentValues.TAG;
 public class ButtonController  implements View.OnClickListener {
 
     private boolean status;
-    private Button button;
-    private TextView state;
+    private ImageButton button;
 
     public ButtonController(View view){
         this.status = false;
-        button = (Button) view.findViewById(R.id.button);
-        state =  (TextView) view.findViewById(R.id.stateText);
-        state.setText("OFF");
+        button = (ImageButton) view.findViewById(R.id.button);
+        button.setColorFilter(ContextCompat.getColor(button.getContext(), R.color.button_off), PorterDuff.Mode.MULTIPLY);
         button.setOnClickListener(this);
 
         /* init the status asnychorniously*/
@@ -57,7 +60,7 @@ public class ButtonController  implements View.OnClickListener {
         public void callback(boolean result) {
             status = true;
             Log.v(TAG, "ON SET SUCCESSFULLY.");
-            state.setText("ON");
+            button.setColorFilter(ContextCompat.getColor(button.getContext(), R.color.button_on), PorterDuff.Mode.MULTIPLY);
         }
     }
 
@@ -67,7 +70,7 @@ public class ButtonController  implements View.OnClickListener {
         public void callback(boolean result) {
             status = false;
             Log.v(TAG, "OFF SET SUCCESSFULLY.");
-            state.setText("OFF");
+            button.setColorFilter(ContextCompat.getColor(button.getContext(), R.color.button_off), PorterDuff.Mode.MULTIPLY);
         }
     }
 
@@ -75,7 +78,13 @@ public class ButtonController  implements View.OnClickListener {
         @Override
         public void callback(boolean result) {
             Log.v(TAG, "Updated STATE.");
-            state.setText(result ? "ON": "OFF");
+            if(result){
+                button.setColorFilter(ContextCompat.getColor(button.getContext(), R.color.button_on), PorterDuff.Mode.MULTIPLY);
+            }
+            else{
+                button.setColorFilter(ContextCompat.getColor(button.getContext(), R.color.button_off), PorterDuff.Mode.MULTIPLY);
+            }
+            status = result;
         }
     }
 }

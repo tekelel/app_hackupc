@@ -55,6 +55,10 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
         tabLayout.setupWithViewPager(viewPager);
+        tabLayout.getTabAt(0).setIcon(R.drawable.ic_action_name);
+        tabLayout.getTabAt(1).setIcon(R.drawable.ic_action_time);
+        tabLayout.getTabAt(2).setIcon(R.drawable.ic_action_eco);
+
         addSeparators(tabLayout);
 
         try {
@@ -66,8 +70,7 @@ public class MainActivity extends AppCompatActivity {
         ImageView img = (ImageView) findViewById(R.id.easterEgg);
         img.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://danielme" +
-                        ".com/2016/03/26/diseno-android-tutorial-pestanas-con-material-design")));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.gitbook.com/cover/book/tra38/essential-copying-and-pasting-from-stack-overflow.jpg?build=1481432910027")));
             }
 
         });
@@ -94,18 +97,6 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_about:
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://danielme" +
-                        ".com/2016/03/26/diseno-android-tutorial-pestanas-con-material-design")));
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-        return true;
-    }
 
     public EcoViewAdapter getEcoAdapter(){
         return this.eco_adapter;

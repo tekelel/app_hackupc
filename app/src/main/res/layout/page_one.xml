@@ -1,24 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:gravity="center"
-              android:background="@color/colorPrimaryDark">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:background="@color/colorPrimaryDark"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/stateText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/page1"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@android:color/white"/>
-
-    <Button
+    <ImageButton
         android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Button" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="@dimen/fab_size"
+        android:layout_height="@dimen/fab_size"
+        android:layout_gravity="center"
+        android:background="@drawable/ripple"
+        android:stateListAnimator="@drawable/anim"
+        android:src="@drawable/ic_action_name"
+        android:scaleType="fitCenter"
+        />
+    android:elevation="4dp"
+        />
 
 </LinearLayout>
